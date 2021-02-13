@@ -1,7 +1,7 @@
 const config = {
     type: Phaser.AUTO,
     width: 480,
-    height: 720,
+    height: 640,
     backgroundColor: '#808080',
     scene: [StartScene, GameScene, EndScene],
     physics: {
