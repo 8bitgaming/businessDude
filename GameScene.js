@@ -37,6 +37,7 @@ class GameScene extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, 480, 600);  // Slightly above score
     gameState.player.setCollideWorldBounds(true);
     gameState.player.body.collideWorldBounds = true;
+    gameState.player.body.setSize(25,40,true);
 
     // Create money sprite in random spots on canvas
     randomCoord = assignCoords();
@@ -49,6 +50,9 @@ class GameScene extends Phaser.Scene {
     this.physics.add.overlap(gameState.player, gameState.money, () => {
       // Hide and deactivate the money sprite after Bob collides with it
       gameState.money.disableBody();
+      // Place paper sprite on canvas randomly
+      randomCoord = assignCoords();
+      gameState.enemies.create(randomCoord.x, randomCoord.y, 'paper').setScale(.6);
       // Move money somewhere else on the canvas
       delete gameState.numCoordinates[`x${gameState.money.x}y${gameState.money.y}`];
       randomCoord = assignCoords();
@@ -60,9 +64,6 @@ class GameScene extends Phaser.Scene {
       scoreText.setText(`Earnings: \$${score}`);
       // Increase speed
       speed = speed + .1;
-      // Place paper sprite on canvas randomly
-      randomCoord = assignCoords();
-      gameState.enemies.create(randomCoord.x, randomCoord.y, 'paper').setScale(.6);
     });
 
     // Collision detection between Bob and paper sprites
@@ -71,7 +72,7 @@ class GameScene extends Phaser.Scene {
     // Helper function to return an object containing evenly spaced x and y coordinates:
     function generateRandomCoords() {
       const randomX = Math.floor(Math.random() * 5) * 75 + 25
-      const randomY = Math.floor(Math.random() * 5) * 75 + 25
+      const randomY = Math.floor(Math.random() * 8) * 75 + 25
       return { x: randomX, y: randomY }
     }
 
@@ -80,7 +81,7 @@ class GameScene extends Phaser.Scene {
       let assignedCoord = generateRandomCoords();
 
       // If the coordinates are already in gameState.numCoordinates, then other set of coordinates are generated until there is one not in use
-      while (gameState.numCoordinates[`x${assignedCoord.x}y${assignedCoord.y}`]) {
+      while (gameState.numCoordinates[`x${assignedCoord.x}y${assignedCoord.y}`] || gameState.player.x == assignedCoord.x || gameState.player.y == assignedCoord.y) {
         assignedCoord = generateRandomCoords()
       }
 
@@ -118,18 +119,11 @@ if (rightArrow === true) {
 }
 
 
-
-
-
-
-
-
-    // Add variables that store the x and y coordinates of the Bob sprite
+// Add variables that store the x and y coordinates of the Bob sprite
 const bobXCoord = gameState.player.x;
 const bobYCoord = gameState.player.y;
 
-
-    // Add code to check collision between Bob and edges of the canvas of the game
+// Add code to check collision between Bob and edges of the canvas of the game
 if (bobXCoord <= 32 || bobXCoord >= 448) {
   this.endGame();
 } 
