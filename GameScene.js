@@ -71,7 +71,7 @@ class GameScene extends Phaser.Scene {
     // Helper function to return an object containing evenly spaced x and y coordinates:
     function generateRandomCoords() {
       const randomX = Math.floor(Math.random() * 5) * 75 + 25
-      const randomY = Math.floor(Math.random() * 5) * 75 + 25
+      const randomY = Math.floor(Math.random() * 8) * 75 + 25
       return { x: randomX, y: randomY }
     }
 
