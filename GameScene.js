@@ -1,4 +1,4 @@
-// Add a variable to keep count of Bob's earnings
+// Add a variable to keep count of Bob's earning
 let score = 0;
 
 // Add a variable to multiply money
