@@ -26,11 +26,15 @@ class GameScene extends Phaser.Scene {
     this.load.image('bob-side', 'https://content.codecademy.com/courses/learn-phaser/BOB/Bob%20side.png');
     this.load.image('money', 'https://content.codecademy.com/courses/learn-phaser/BOB/Money.png');
     this.load.image('paper', 'https://content.codecademy.com/courses/learn-phaser/BOB/Paperwork.png');
+    this.load.audio('cash_register', 'https://actions.google.com/sounds/v1/impacts/crash.ogg');
   }
 
   create() {
     // Display text showing how much cash Bob earned
     let scoreText = this.add.text(140, 610, `Earnings: $${score}`, { fontSize: '25px', fill: '#fff' });
+
+    //create sound effect
+    const soundEffects = this.sound.add('cash_register')
 
     // Create the Bob sprite and set boundaries for it
     gameState.player = this.physics.add.sprite(240, 500, 'bob-front').setScale(.8);
@@ -50,6 +54,8 @@ class GameScene extends Phaser.Scene {
     this.physics.add.overlap(gameState.player, gameState.money, () => {
       // Hide and deactivate the money sprite after Bob collides with it
       gameState.money.disableBody();
+      // Play cashRegister sound
+      soundEffects.play();
       // Place paper sprite on canvas randomly
       randomCoord = assignCoords();
       gameState.enemies.create(randomCoord.x, randomCoord.y, 'paper').setScale(.6);
