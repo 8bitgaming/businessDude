@@ -26,7 +26,8 @@ class GameScene extends Phaser.Scene {
     this.load.image('bob-side', 'https://content.codecademy.com/courses/learn-phaser/BOB/Bob%20side.png');
     this.load.image('money', 'https://content.codecademy.com/courses/learn-phaser/BOB/Money.png');
     this.load.image('paper', 'https://content.codecademy.com/courses/learn-phaser/BOB/Paperwork.png');
-    this.load.audio('cash_register', 'https://actions.google.com/sounds/v1/impacts/crash.ogg');
+    // this.load.audio('cash_register', 'https://actions.google.com/sounds/v1/impacts/crash.ogg');
+    this.load.audio('cash_register', 'assets/cash_register.mp3');
   }
 
   create() {
