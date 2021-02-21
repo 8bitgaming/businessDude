@@ -21,9 +21,9 @@ class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('bob-front', 'https://content.codecademy.com/courses/learn-phaser/BOB/Bob%20front.png');
-    this.load.image('bob-back', 'https://content.codecademy.com/courses/learn-phaser/BOB/Bob%20back.png');
-    this.load.image('bob-side', 'https://content.codecademy.com/courses/learn-phaser/BOB/Bob%20side.png');
+    this.load.spritesheet('bob-front', 'assets/sprites/Bob_front-sheet.png', { frameWidth: 80, frameHeight: 80 });
+    this.load.spritesheet('bob-back', 'assets/sprites/Bob_back-sheet.png', { frameWidth: 80, frameHeight: 80 });
+    this.load.spritesheet('bob-side', 'assets/sprites/Bob_side-sheet.png', { frameWidth: 80, frameHeight: 80 });
     this.load.image('money', 'https://content.codecademy.com/courses/learn-phaser/BOB/Money.png');
     this.load.image('paper', 'https://content.codecademy.com/courses/learn-phaser/BOB/Paperwork.png');
     // this.load.audio('cash_register', 'https://actions.google.com/sounds/v1/impacts/crash.ogg');
@@ -42,7 +42,29 @@ class GameScene extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, 480, 600);  // Slightly above score
     gameState.player.setCollideWorldBounds(true);
     gameState.player.body.collideWorldBounds = true;
-    gameState.player.body.setSize(25,40,true);
+    gameState.player.body.setSize(25,40,true); // Hardcoded size, unsure of the easiest way to set scale by sprite size in this
+
+    // Create animations for Bob
+    this.anims.create({
+      key: 'up',
+      frames: this.anims.generateFrameNumbers('bob-back', { end: 8 }),
+      frameRate: 15,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'down',
+      frames: this.anims.generateFrameNumbers('bob-front', { end: 6 }),
+      frameRate: 15,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'side',
+      frames: this.anims.generateFrameNumbers('bob-side', { end: 8 }),
+      frameRate: 15,
+      repeat: -1
+    });
 
     // Create money sprite in random spots on canvas
     randomCoord = assignCoords();
@@ -113,18 +135,23 @@ class GameScene extends Phaser.Scene {
 
 
 
-    // Add code to check whether any of the arrow keys were pressed, move Bob
-
+// Add code to check whether any of the arrow keys were pressed, move Bob and play appropriate animation
 if (rightArrow === true) {
   moveBobRight()
+  gameState.player.anims.play('side',true);
 }else if (leftArrow === true) {
   moveBobLeft()
+  gameState.player.anims.play('side',true);
 }else if (upArrow === true) {
   moveBobUp()
+  gameState.player.anims.play('up',true);
 }else if (downArrow === true) {
   moveBobDown()
+  gameState.player.anims.play('down',true);
 }
 
+// Speed up animation as Bob gets faster
+gameState.player.anims.msPerFrame = 60 * (1/speed);
 
 // Add variables that store the x and y coordinates of the Bob sprite
 const bobXCoord = gameState.player.x;
@@ -147,7 +174,7 @@ if (bobYCoord <= 32 || bobYCoord >= 568) {
     // Helper functions to move Bob in 4 directions
     function moveBobRight() {
       gameState.player.flipX = false;
-      gameState.player.setTexture('bob-side');
+      //gameState.player.setTexture('bob-side');
       gameState.player.setVelocityX(150 * speed);
       gameState.player.setVelocityY(0);
     }
@@ -155,21 +182,21 @@ if (bobYCoord <= 32 || bobYCoord >= 568) {
     function moveBobLeft() {
       // NOTE: By default Bob looks to the right so we flip the image if moving left
       gameState.player.flipX = true;
-      gameState.player.setTexture('bob-side');
+      //gameState.player.setTexture('bob-side');
       gameState.player.setVelocityX(-150 * speed);
       gameState.player.setVelocityY(0);
     }
 
     function moveBobUp() {
       gameState.player.flipX = false;
-      gameState.player.setTexture('bob-back');
+      //gameState.player.setTexture('bob-back');
       gameState.player.setVelocityX(0);
       gameState.player.setVelocityY(-150 * speed);
     }
 
     function moveBobDown() {
       gameState.player.flipX = false;
-      gameState.player.setTexture('bob-front');
+      //gameState.player.setTexture('bob-front');
       gameState.player.setVelocityX(0);
       gameState.player.setVelocityY(150 * speed);
     }
