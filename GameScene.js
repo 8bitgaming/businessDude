@@ -2,7 +2,7 @@
 let score = 0;
 
 // Add a variable to multiply money
-const moneyMultiplier = 100;
+let moneyMultiplier = 100;
 
 // Add a variable to control speed of Bob sprite
 let speed = 1;
@@ -26,7 +26,6 @@ class GameScene extends Phaser.Scene {
     this.load.image('bob-side', 'https://content.codecademy.com/courses/learn-phaser/BOB/Bob%20side.png');
     this.load.image('money', 'https://content.codecademy.com/courses/learn-phaser/BOB/Money.png');
     this.load.image('paper', 'https://content.codecademy.com/courses/learn-phaser/BOB/Paperwork.png');
-    // this.load.audio('cash_register', 'https://actions.google.com/sounds/v1/impacts/crash.ogg');
     this.load.audio('cash_register', 'assets/cash_register.mp3');
   }
 
@@ -65,8 +64,9 @@ class GameScene extends Phaser.Scene {
       randomCoord = assignCoords();
       // Place the money sprite somewhere new, then show and activate it
       gameState.money.enableBody(true, randomCoord.x, randomCoord.y);
-      // Increase the score randomly between 100 and 1000
-      score += (Math.round(Math.random() * 10) * moneyMultiplier);
+      // Increase the score by 100 first, then increase the overall value of the cash
+      score += moneyMultiplier;
+      moneyMultiplier += 100;
       // Update cash total text
       scoreText.setText(`Earnings: \$${score}`);
       // Increase speed

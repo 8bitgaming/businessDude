@@ -18,6 +18,7 @@ class EndScene extends Phaser.Scene {
       // Add code to reset global variables
     score = 0;
     speed = 1;
+    moneyMultiplier = 100;
   
       // Reset sprite positions
       gameState.numCoordinates = {};
